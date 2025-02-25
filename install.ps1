@@ -7,7 +7,7 @@ if (-not (Test-Path $ittPath)) {
 
 Invoke-WebRequest "https://github.com/itt-co/bin/releases/latest/download/installer.msi" -OutFile $installerPath
 
-Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /q REINSTALL=ALL" -NoNewWindow -Wait
+Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /q" -NoNewWindow -Wait
 
 $currentPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
 
