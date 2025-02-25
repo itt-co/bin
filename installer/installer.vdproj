@@ -27,12 +27,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_0B270E332DDB4E7BA8DF50A699A1C01A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0B3F13E886DE52264A9C058E3C4D8B63"
         "OwnerKey" = "8:_03512A996C824F6384F256FE598CFF7E"
         "MsmSig" = "8:_UNDEFINED"
@@ -255,6 +249,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_568026D170B3B4846964D2F8E6EFD28E"
+        "OwnerKey" = "8:_2B57988C2DF445DE959B0B7553DBE3F3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6280C1D7C62DF2F82306539AC124BD8E"
         "OwnerKey" = "8:_03512A996C824F6384F256FE598CFF7E"
         "MsmSig" = "8:_UNDEFINED"
@@ -419,6 +419,12 @@
         {
         "MsmKey" = "8:_B9246546F74A3804AD35F222D2C94A02"
         "OwnerKey" = "8:_1C9CF1DDDCF32426F37A49CE0056B91A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C085C116D2DD49D0A8698EEC638ADE2F"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -785,26 +791,6 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0B270E332DDB4E7BA8DF50A699A1C01A"
-            {
-            "SourcePath" = "8:C:\\ProgramData\\itt\\helpers\\functions\\Install-ITTPackage.ps1"
-            "TargetName" = "8:Install-ITTPackage.ps1"
-            "Tag" = "8:"
-            "Folder" = "8:_4C92ED13CF70492DB5C7078FDBB13075"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0B3F13E886DE52264A9C058E3C4D8B63"
@@ -1458,6 +1444,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C085C116D2DD49D0A8698EEC638ADE2F"
+            {
+            "SourcePath" = "8:..\\automation\\functions\\Install-ITTPackage.ps1"
+            "TargetName" = "8:Install-ITTPackage.ps1"
+            "Tag" = "8:"
+            "Folder" = "8:_4C92ED13CF70492DB5C7078FDBB13075"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C5BEB1C892B83BAE3E04B8D52525CF98"
             {
             "AssemblyRegister" = "3:1"
@@ -1693,7 +1699,7 @@
                 {
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_A9D5BA6822AD40C5A88F804B618DA411"
                     {
-                    "Name" = "8:helpers"
+                    "Name" = "8:automation"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
@@ -1752,9 +1758,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:ITT"
-        "ProductCode" = "8:{9D01E2FA-6D29-4360-B3A6-7501FE00C0B3}"
-        "PackageCode" = "8:{11C7CA3A-DBD5-477A-8881-F7BCB274FF22}"
+        "ProductName" = "8:itt"
+        "ProductCode" = "8:{52112F69-DFD1-43C4-AB10-DD991D60E923}"
+        "PackageCode" = "8:{6CDD054B-3A6D-4693-BE31-0F72D5BF1E67}"
         "UpgradeCode" = "8:{118CFF81-C958-45AA-B039-FF76C3533D24}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -1764,13 +1770,13 @@
         "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:Emad Adel"
         "ARPHELPTELEPHONE" = "8:"
-        "ARPHELPLINK" = "8:"
-        "Title" = "8:"
+        "ARPHELPLINK" = "8:https://github.com/emadadel4/itt"
+        "Title" = "8:ITT Packages Manager"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Emad Adel"
         "Keywords" = "8:itt,emadadel"
         "ARPCOMMENTS" = "8:Package Manager for ITT"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPURLINFOABOUT" = "8:https://github.com/emadadel4/itt"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
