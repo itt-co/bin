@@ -153,7 +153,7 @@ namespace ITT
 
         static async Task ExecuteInstallScriptInSameSession(string ittPath, string packageName)
         {
-            string helperScriptPath = Path.Combine(ittPath, "helpers", "functions", "Install-ITTPackage.ps1");
+            string helperScriptPath = Path.Combine(ittPath, "automation", "functions", "Install-ITTPackage.ps1");
             string installScriptPath = Path.Combine(ittPath, "downloads", packageName, "tools", "install.ps1");
 
             string psScript = $@"
