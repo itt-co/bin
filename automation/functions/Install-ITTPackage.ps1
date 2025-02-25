@@ -1,3 +1,10 @@
+<#
+    .NOTES
+        Author         : @ChrisStro
+        GitHub         : https://github.com/ChrisStro
+        Modfied:       : https://github.com/emadadel4
+#>
+
 function Get-FileFromWeb {
     param (
         # Parameter help description
@@ -29,7 +36,7 @@ function Get-FileFromWeb {
         
                 # Enter bar lengh suffix
                 [Parameter()]
-                [int]$BarSize = 25,
+                [int]$BarSize = 20,
 
                 # show complete bar
                 [Parameter()]
@@ -53,10 +60,10 @@ function Get-FileFromWeb {
                 $progbar = $progbar.PadRight($BarSize,[char]9617)
         
                 if (!$Complete.IsPresent) {
-                    Write-Host -NoNewLine "`r$ProgressText $progbar [ $($CurrentValue.ToString("#.###").PadLeft($TotalValue.ToString("#.###").Length))$ValueSuffix / $($TotalValue.ToString("#.###"))$ValueSuffix ] $($percentComplete.ToString("##0.00").PadLeft(6)) % complete"
+                    Write-Host -NoNewLine "`rDownloading $($percentComplete.ToString("##0"))%"
                 }
                 else {
-                    Write-Host -NoNewLine "`r$ProgressText $progbar [ $($TotalValue.ToString("#.###").PadLeft($TotalValue.ToString("#.###").Length))$ValueSuffix / $($TotalValue.ToString("#.###"))$ValueSuffix ] $($percentComplete.ToString("##0.00").PadLeft(6)) % complete"                    
+                    Write-Host -NoNewLine "`rDownloading $($percentComplete.ToString("##0"))%"
                 }                
             }   
         }
