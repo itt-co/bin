@@ -1759,8 +1759,8 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:itt"
-        "ProductCode" = "8:{5652471A-3FAC-4A98-9ADE-55735F17BF88}"
-        "PackageCode" = "8:{B9063011-DF8E-4561-82F8-A15977D07BDD}"
+        "ProductCode" = "8:{E4B3DF12-CA29-487A-8ADA-96C9EE1655C7}"
+        "PackageCode" = "8:{2F7BABFA-44DF-4F41-B741-AEA62124C7F7}"
         "UpgradeCode" = "8:{118CFF81-C958-45AA-B039-FF76C3533D24}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
