@@ -42,7 +42,7 @@ namespace ITT
             var packageNames = args.Skip(1).Where(arg => arg != "-y").ToList();
             if (!packageNames.Any())
             {
-                Console.WriteLine("No package names provided.");
+                Console.WriteLine("[i] This package not exist on ITT");
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace ITT
             Console.WriteLine("[i] By installing, you accept licenses for the packages.");
             Console.ResetColor();
 
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"[+] Installing the following package: {packageName}");
             Console.ResetColor();
 
