@@ -17,13 +17,13 @@ if (-not $envPath.Split(';').Contains($ittPath)) {
     # Add to machine-level Path
     $newPath = "$envPath;$ittPath"
     [Environment]::SetEnvironmentVariable("Path", $newPath, [EnvironmentVariableTarget]::Machine)
-    Write-Output "Path added to machine-level Path."
+    #Write-Output "Path added to machine-level Path."
 
     # Also add to current session's Path so it's immediately available
     if (-not $env:Path.Split(';').Contains($ittPath)) {
         $env:Path += ";$ittPath"
-        Write-Output "Path added to current session Path."
+        #Write-Output "Path added to current session Path."
     }
 } else {
-    Write-Output "Path already exists in machine-level Path."
+    #Write-Output "Path already exists in machine-level Path."
 }
