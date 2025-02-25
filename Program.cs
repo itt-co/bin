@@ -16,7 +16,7 @@ namespace ITT
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("Usage: itt install <package-name>");
+                Console.WriteLine("[i] Usage: itt install <package-name>");
                 return;
             }
 
@@ -26,7 +26,7 @@ namespace ITT
                     await HandleInstallCommand(args);
                     break;
                 default:
-                    Console.WriteLine("Unknown command. Use 'itt install <package-name>'.");
+                    Console.WriteLine("[x] Unknown command. Use 'itt install <package-name>'.");
                     break;
             }
         }
@@ -35,7 +35,7 @@ namespace ITT
         {
             if (args.Length < 2)
             {
-                Console.WriteLine("Usage: itt install <package-name>");
+                Console.WriteLine("[i] Usage: itt install <package-name>");
                 return;
             }
 
@@ -59,8 +59,8 @@ namespace ITT
             if (!await PackageExistsOnGitHub(packageName))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Package ({packageName}) does not exist in package list");
-                Console.WriteLine($"Use <itt search> to see all available packages");
+                Console.WriteLine($"[i] Package ({packageName}) does not exist in package list");
+                Console.WriteLine($"[i] Use <itt search> to see all available packages");
                 Console.ResetColor();
                 return;
             }
@@ -69,8 +69,8 @@ namespace ITT
             Console.WriteLine("[i] By installing, you accept licenses for the packages.");
             Console.ResetColor();
 
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"[i] Installing the following package: {packageName}");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"[+] Installing the following package: {packageName}");
             Console.ResetColor();
 
             if (!autoConfirm)
@@ -123,7 +123,7 @@ namespace ITT
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Error downloading install script: {ex.Message}");
+                Console.WriteLine($"[x] Error downloading install script: {ex.Message}");
                 Console.ResetColor();
                 throw;
             }
@@ -145,7 +145,7 @@ namespace ITT
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Error writing install: {ex.Message}");
+                Console.WriteLine($"[x] Error writing install: {ex.Message}");
                 Console.ResetColor();
                 throw;
             }
