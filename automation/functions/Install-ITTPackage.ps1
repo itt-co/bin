@@ -60,10 +60,10 @@ function Get-FileFromWeb {
                 $progbar = $progbar.PadRight($BarSize,[char]9617)
         
                 if (!$Complete.IsPresent) {
-                    Write-Host -NoNewLine "`rDownloading $($percentComplete.ToString("##0"))%"
+                    Write-Host -NoNewLine "`r[+] Downloading $($percentComplete.ToString("##0"))%"
                 }
                 else {
-                    Write-Host -NoNewLine "`rDownloading $($percentComplete.ToString("##0"))%"
+                    Write-Host -NoNewLine "`r[+] Downloading $($percentComplete.ToString("##0"))%"
                 }                
             }   
         }
@@ -179,6 +179,7 @@ function Install-ITTPackage {
             "msi" {
                 try {
                     Start-Process -FilePath "msiexec.exe" -ArgumentList "/i $installerPath /quiet $silentArgs" -Wait -NoNewWindow
+                    Write-Host "`r[+] Installing $packageName..." -NoNewline
                 }
                 catch {
                     Write-Error $_
@@ -187,16 +188,15 @@ function Install-ITTPackage {
             "exe"{
                 try {
                     Start-Process -FilePath $installerPath -ArgumentList $silentArgs -Wait
+                    Write-Host "`r[+] Installing $packageName..." -NoNewline
                 }
                 catch {
                     Write-Error $_
                 }
             }
             "zip"{
-                Write-Host "EXPANDING ARCHIVE " -ForegroundColor Yellow -NoNewline
+                Write-Host "[+] Expanding Archive..." -ForegroundColor Yellow -NoNewline
                 Expand-Archive -Path  $installerPath -DestinationPath $toolsDir -Force -ErrorAction Stop
-                Write-Host "FINISHED EXPANDING ARCHIVE " -ForegroundColor Yellow -NoNewline
-
 
                 $desktopPath = [System.Environment]::GetFolderPath('Desktop')
                 $shortcutPath = Join-Path -Path $desktopPath -ChildPath "$packageName.lnk"
@@ -207,10 +207,10 @@ function Install-ITTPackage {
                     $shortcut = $shell.CreateShortcut($shortcutPath)
                     $shortcut.TargetPath = "$toolsDir\$lancherName"
                     $shortcut.Save()
-                    Write-Host "Shortcut created on Destkop " -ForegroundColor Yellow -NoNewline
+                    Write-Host "`r[+] Shortcut created on Destkop " -ForegroundColor Yellow -NoNewline
                 }
                 catch {
-                    Write-Error "Failed to create shortcut. Error: $_" -ForegroundColor Red
+                    Write-Error "`r[x] Failed to create shortcut. Error: $_" -ForegroundColor Red -NoNewline
                 }
             }
             Default {
