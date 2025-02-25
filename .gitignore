@@ -47,3 +47,4 @@ ScaffoldingReadMe.txt
 
 # Signature file
 *.sign
+installer/Release/setup.exe
