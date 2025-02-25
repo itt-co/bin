@@ -9,7 +9,7 @@ $installerPath = "$env:TEMP\installer.msi"
 Invoke-WebRequest "https://github.com/itt-co/bin/releases/latest/download/installer.msi" -OutFile $installerPath
 
 if (Test-Path $installerPath) {
-    Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /qn REINSTALL=ALL REINSTALLMODE=vomus" -Wait
+    Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /qn REINSTALL=ALL REINSTALLMODE=vomus" -NoNewWindow -Wait
 
     $currentPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
     if ($currentPath -notlike "*${ittPath}*") {
