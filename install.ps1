@@ -1,0 +1,20 @@
+$ittPath = "C:\ProgramData\itt"
+
+if (-not (Test-Path $ittPath)) {
+    New-Item -ItemType Directory -Path $ittPath -Force | Out-Null
+}
+
+$installerPath = "$env:TEMP\installer.msi"
+
+Invoke-WebRequest "https://github.com/itt-co/bin/releases/latest/download/setup.exe" -OutFile $installerPath
+
+if (Test-Path $installerPath) {
+    Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /qn REINSTALL=ALL REINSTALLMODE=vomus" -Wait
+
+    $currentPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+    if ($currentPath -notlike "*${ittPath}*") {
+        [Environment]::SetEnvironmentVariable('Path', "$currentPath;$ittPath", 'Machine')
+    }
+} else {
+    Write-Host "Failed to download the installer Please try again."
+}
