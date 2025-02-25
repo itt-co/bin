@@ -9,9 +9,11 @@ Invoke-WebRequest "https://github.com/itt-co/bin/releases/latest/download/instal
 
 Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /q" -NoNewWindow -Wait
 
-$currentPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
-
-if ($currentPath -notlike "*${ittPath}*") 
-{
-    [Environment]::SetEnvironmentVariable('Path', "$currentPath;$ittPath", 'Machine')
+$envPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::Machine)
+if (-not $envPath.Split(';').Contains($ittPath)) {
+    $newPath = "$envPath;$ittPath"
+    [Environment]::SetEnvironmentVariable("Path", $newPath, [EnvironmentVariableTarget]::Machine)
+    Write-Output "Path added successfully."
+} else {
+    Write-Output "Path already exists."
 }
