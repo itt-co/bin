@@ -15,17 +15,21 @@ namespace ITT
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("[i] Usage: itt install <package-name>");
+                //Console.WriteLine("[i] Usage: itt install <package-name>");
                 return;
             }
 
             switch (args[0].ToLower())
             {
-                case "install":
+                case "i":
                     await HandleInstallCommand(args);
                     break;
+
+                case "t":
+                    await HandleTweakCommand(args);
+                    break;
                 default:
-                    Console.WriteLine("[x] Unknown command. Use 'itt install <package-name>'.");
+                    Console.WriteLine("[x] Unknown command. Use 'itt help'.");
                     break;
             }
         }
@@ -34,7 +38,7 @@ namespace ITT
         {
             if (args.Length < 2)
             {
-                Console.WriteLine("[i] Usage: itt install <package-name>");
+                Console.WriteLine("[i] Usage: itt i <package-name>");
                 return;
             }
 
@@ -53,17 +57,31 @@ namespace ITT
             }
         }
 
-        static async Task InstallPackageAsync(string packageName, bool autoConfirm)
+        static async Task HandleTweakCommand(string[] args)
         {
-            if (!await PackageExistsOnGitHub(packageName))
+            if (args.Length < 2)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"[i] Package ({packageName}) does not exist in package list");
-                Console.WriteLine($"[i] Use <itt search> to see all available packages");
-                Console.ResetColor();
+                Console.WriteLine("[i] Usage: itt t <twaek name>");
                 return;
             }
 
+            var tewakNames = args.Skip(1).Where(arg => arg != "-y").ToList();
+            if (!tewakNames.Any())
+            {
+                Console.WriteLine("[i] This tweak not exist on ITT");
+                return;
+            }
+
+            bool autoConfirm = args.Contains("-y");
+
+            foreach (var tweakName in tewakNames)
+            {
+                await InstallTewakAsync(tweakName, autoConfirm);
+            }
+        }
+
+        static async Task InstallPackageAsync(string packageName, bool autoConfirm)
+        {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("[i] By installing, you accept licenses for the packages.");
             Console.ResetColor();
@@ -79,9 +97,6 @@ namespace ITT
                 string confirmation = Console.ReadLine()?.ToLower();
                 if (confirmation != "yes" && confirmation != "y")
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Installation canceled.");
-                    Console.ResetColor();
                     return;
                 }
             }
@@ -96,6 +111,26 @@ namespace ITT
             await WriteInstallScriptToFile(ittPath, packageName, installScriptContent);
 
             await ExecuteInstallScriptInSameSession(ittPath, packageName);
+        }
+
+        static async Task InstallTewakAsync(string tweakName, bool autoConfirm)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"[+] Applying the following twaeks: {tweakName}");
+            Console.ResetColor();
+
+            if (!autoConfirm)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Are you sure you want to applying '{tweakName}'? (yes/y to confirm)");
+                string confirmation = Console.ReadLine()?.ToLower();
+                if (confirmation != "yes" && confirmation != "y")
+                {
+                    return;
+                }
+            }
+
+            await ExecuteRemoteScript(tweakName);
         }
 
         static void CreateDirectoriesIfNotExist(string ittPath, string libPath, string packageName)
@@ -119,12 +154,12 @@ namespace ITT
             {
                 return await client.GetStringAsync(packageUrl);
             }
-            catch (Exception ex)
+            catch
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"[x] Error downloading install script: {ex.Message}");
+                Console.WriteLine($"[x] The remote name could not be resolved: 'raw.githubusercontent.com");
                 Console.ResetColor();
-                throw;
+                return null;
             }
         }
 
@@ -139,14 +174,12 @@ namespace ITT
                 {
                     await writer.WriteAsync(installScriptContent);
                 }
-       
             }
-            catch (Exception ex)
+            catch 
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"[x] Error writing install: {ex.Message}");
+                Console.WriteLine($"[x] Error writing install");
                 Console.ResetColor();
-                throw;
             }
         }
 
@@ -183,16 +216,31 @@ namespace ITT
             }
         }
 
-        static async Task<bool> PackageExistsOnGitHub(string packageName)
+        static async Task ExecuteRemoteScript(string TwaekName)
         {
-            string apiUrl = $"https://raw.githubusercontent.com/itt-co/itt-packages/main/automation/{packageName}/install.ps1";
+            string scriptUrl = $"https://raw.githubusercontent.com/itt-co/itt-tweaks/main/{TwaekName}/run.ps1";
 
-            using (HttpClient client = new HttpClient())
+            // Run PowerShell in the same session using PowerShell APIs
+            using (PowerShell ps = PowerShell.Create())
             {
-                client.DefaultRequestHeaders.Add("User-Agent", "ITT-Client");
+                string psScript = $"irm '{scriptUrl}' | iex";
 
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                return response.IsSuccessStatusCode;
+                ps.AddScript(psScript);
+                ps.Streams.Error.DataAdded += (sender, e) =>
+                {
+                    var error = ps.Streams.Error[e.Index];
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(error.ToString());
+                    Console.ResetColor();
+                };
+
+                ps.Streams.Information.DataAdded += (sender, e) =>
+                {
+                    var info = ps.Streams.Information[e.Index].ToString();
+                    Console.Write("\r" + info);
+                };
+
+                ps.Invoke();
             }
         }
     }
