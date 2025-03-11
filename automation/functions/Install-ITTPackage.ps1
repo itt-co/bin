@@ -60,10 +60,10 @@ function Get-FileFromWeb {
                 $progbar = $progbar.PadRight($BarSize,[char]9617)
         
                 if (!$Complete.IsPresent) {
-                    Write-Host -NoNewLine "`r[+] Downloading $($percentComplete.ToString("##0"))%"
+                    Write-Host -NoNewLine "[+] Downloading $($percentComplete.ToString("##0"))%"
                 }
                 else {
-                    Write-Host -NoNewLine "`r[+] Downloading $($percentComplete.ToString("##0"))%"
+                    Write-Host -NoNewLine "[+] Downloading $($percentComplete.ToString("##0"))%"
                 }                
             }   
         }
@@ -152,6 +152,7 @@ function Install-ITTPackage {
     param (
         [string]$packageName,
         [string]$fileType,
+        [array]$dependencies,
         [string]$url,
         [string]$url64,
         [string]$installerName,
@@ -166,11 +167,20 @@ function Install-ITTPackage {
     if (-Not (Test-Path $installerPath)) {
         
         $downloadUrl = if ([Environment]::Is64BitOperatingSystem) { $url64 } else { $url }
-        $lancherName = if ([Environment]::Is64BitOperatingSystem) { $installerName64 } else { $installerName }
+        $launcherName = if ([Environment]::Is64BitOperatingSystem) { $installerName64 } else { $installerName }
 
         # Create directory if it does not exist
         if (-Not (Test-Path $toolsDir)) {
             New-Item -ItemType Directory -Path $toolsDir | Out-Null
+        }
+
+        # Install dependencies first
+        if ($dependencies -and $dependencies.Count -gt 0) {
+
+            foreach ($depUrl in $dependencies) {
+                Write-Host "[+] Installing dependency..."
+                Start-Process -FilePath "itt" -ArgumentList "i $depUrl -y" -NoNewWindow -Wait -PassThru
+            }
         }
 
         Get-FileFromWeb -URL $downloadUrl -File $installerPath
@@ -179,7 +189,7 @@ function Install-ITTPackage {
             "msi" {
                 try {
                     Start-Process -FilePath "msiexec.exe" -ArgumentList "/i $installerPath /quiet $silentArgs" -Wait -NoNewWindow
-                    Write-Host "`r[+] Installing $packageName..." -NoNewline
+                    Write-Host "[+] Installing $packageName..." -NoNewline
                 }
                 catch {
                     Write-Error $_
@@ -188,7 +198,7 @@ function Install-ITTPackage {
             "exe"{
                 try {
                     Start-Process -FilePath $installerPath -ArgumentList $silentArgs -Wait
-                    Write-Host "`r[+] Installing $packageName..." -NoNewline
+                    Write-Host "[+] Installing $packageName..."
                 }
                 catch {
                     Write-Error $_
@@ -205,12 +215,21 @@ function Install-ITTPackage {
                     # Create the shortcut
                     $shell = New-Object -ComObject WScript.Shell
                     $shortcut = $shell.CreateShortcut($shortcutPath)
-                    $shortcut.TargetPath = "$toolsDir\$lancherName"
+                    $shortcut.TargetPath = "$toolsDir\$launcherName"
                     $shortcut.Save()
                     Write-Host "`r[+] Shortcut created on Destkop " -ForegroundColor Yellow -NoNewline
                 }
                 catch {
                     Write-Error "`r[x] Failed to create shortcut. Error: $_" -ForegroundColor Red -NoNewline
+                }
+            }
+            "appx"{
+                try {
+                    Add-AppxPackage -Path $installerPath
+                    Write-Host "`r[+] Installing $packageName..." -NoNewline
+                }
+                catch {
+                    Write-Error "`r[x] Failed to install $packageName. Error: $_"
                 }
             }
             Default {
