@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_05DAA1D094A84ACA9651A0985701247D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_08553712D8C4BA4FC7FE82E5E46F2C0C"
         "OwnerKey" = "8:_03512A996C824F6384F256FE598CFF7E"
         "MsmSig" = "8:_UNDEFINED"
@@ -29,18 +35,6 @@
         {
         "MsmKey" = "8:_0B3F13E886DE52264A9C058E3C4D8B63"
         "OwnerKey" = "8:_03512A996C824F6384F256FE598CFF7E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0B3F13E886DE52264A9C058E3C4D8B63"
-        "OwnerKey" = "8:_D9D7B944F1C1DA633C01CED67A0436D6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0B3F13E886DE52264A9C058E3C4D8B63"
-        "OwnerKey" = "8:_D322BE911E23162895A5E37C435247C9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -762,6 +756,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_05DAA1D094A84ACA9651A0985701247D"
+            {
+            "SourcePath" = "8:..\\automation\\functions\\Apply-ITTTweaks.ps1"
+            "TargetName" = "8:Apply-ITTTweaks.ps1"
+            "Tag" = "8:"
+            "Folder" = "8:_4C92ED13CF70492DB5C7078FDBB13075"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_08553712D8C4BA4FC7FE82E5E46F2C0C"
             {
             "AssemblyRegister" = "3:1"
@@ -1099,7 +1113,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:TRUE"
+            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -1409,7 +1423,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:TRUE"
+            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
