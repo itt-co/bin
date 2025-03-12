@@ -178,8 +178,9 @@ function Install-ITTPackage {
         if ($dependencies -and $dependencies.Count -gt 0) {
 
             foreach ($depUrl in $dependencies) {
+
                 Write-Host "[+] Installing dependency..."
-                Start-Process -FilePath "itt" -ArgumentList "i $depUrl -y" -NoNewWindow -Wait -PassThru
+                Start-Process -FilePath "itt" -ArgumentList "install $depUrl -y" -NoNewWindow -Wait -PassThru
             }
         }
 
