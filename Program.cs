@@ -1,9 +1,12 @@
-﻿using System;
+﻿// Copyright (c) 2025 Emad Adel. All Rights Reserved.
+// https://github.com/emadadel4/
+using System;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Management.Automation;
+using System.Diagnostics;
 
 namespace ITT
 {
@@ -15,23 +18,58 @@ namespace ITT
         {
             if (args.Length == 0)
             {
-                //Console.WriteLine("[i] Usage: itt install <package-name>");
+                Console.WriteLine("Starting ITT...");
+
+                string scriptUrl = "bit.ly/ittea";
+
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = "powershell.exe",
+                    Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command irm {scriptUrl} | iex' -Verb RunAs\"",
+                    UseShellExecute = true
+                };
+
+                Process.Start(psi);
                 return;
             }
 
             switch (args[0].ToLower())
             {
-                case "i":
+                case "install":
                     await HandleInstallCommand(args);
                     break;
 
                 case "t":
+                case "tweak":
                     await HandleTweakCommand(args);
+                    break;
+
+                case "i":
+                    if (args.Length < 2)
+                    {
+                        Console.WriteLine("[i] Usage: itt i <file.itt>");
+                        return;
+                    }
+                    HandleQuickInstallCommand(args[1]);
+                    break;
+                case "-h":
+                case "-help":
+                    ShowHelp();
                     break;
                 default:
                     Console.WriteLine("[x] Unknown command. Use 'itt help'.");
                     break;
             }
+        }
+
+        static void ShowHelp()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nCommands\n");
+            Console.ResetColor();
+            Console.WriteLine("-install\n   Install a package");
+            Console.WriteLine("-i\n   Quick install from a .itt file");
+            Console.WriteLine("-h, -help\n   Show this help message\n");
         }
 
         static async Task HandleInstallCommand(string[] args)
@@ -77,6 +115,36 @@ namespace ITT
             foreach (var tweakName in tewakNames)
             {
                 await InstallTewakAsync(tweakName, autoConfirm);
+            }
+        }
+
+        static void HandleQuickInstallCommand(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                Console.WriteLine("[i] Usage: itt q <file.itt>");
+                return;
+            }
+
+            string fullPath = Path.GetFullPath(filePath);
+            string script = $"& {{ $(irm bit.ly/ittea) }} -i {fullPath}";
+
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"iex \\\"{script}\\\"\"",
+                UseShellExecute = true,
+                Verb = "RunAs"
+            };
+
+            try
+            {
+                var process = Process.Start(psi);
+                process.WaitForExit();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[x] Failed to start process: {ex.Message}");
             }
         }
 
@@ -212,7 +280,7 @@ namespace ITT
                     Console.Write("\r" + info); 
                 };
 
-                ps.Invoke();
+                await Task.Run(() => ps.Invoke());
             }
         }
 
@@ -240,7 +308,7 @@ namespace ITT
                     Console.Write("\r" + info);
                 };
 
-                ps.Invoke();
+                await Task.Run(() => ps.Invoke());
             }
         }
     }
