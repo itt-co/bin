@@ -38,19 +38,9 @@ namespace ITT
                 case "install":
                     await HandleInstallCommand(args);
                     break;
-
                 case "t":
                 case "tweak":
                     await HandleTweakCommand(args);
-                    break;
-
-                case "i":
-                    if (args.Length < 2)
-                    {
-                        Console.WriteLine("[i] Usage: itt i <file.itt>");
-                        return;
-                    }
-                    HandleQuickInstallCommand(args[1]);
                     break;
                 case "-h":
                 case "-help":
