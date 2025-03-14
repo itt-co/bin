@@ -179,7 +179,7 @@ function Install-ITTPackage {
 
             foreach ($depUrl in $dependencies) {
 
-                Write-Host "[+] Installing dependency..."
+                Write-Host "`r[+] Installing dependency..."
                 Start-Process -FilePath "itt" -ArgumentList "install $depUrl -y" -NoNewWindow -Wait -PassThru
             }
         }
@@ -226,8 +226,8 @@ function Install-ITTPackage {
             }
             "appx"{
                 try {
+                    Write-Host "`r[+] Installing $packageName..."
                     Add-AppxPackage -Path $installerPath
-                    Write-Host "`r[+] Installing $packageName..." -NoNewline
                 }
                 catch {
                     Write-Error "`r[x] Failed to install $packageName. Error: $_"
