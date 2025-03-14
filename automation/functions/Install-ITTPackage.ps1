@@ -190,7 +190,7 @@ function Install-ITTPackage {
             "msi" {
                 try {
                     Start-Process -FilePath "msiexec.exe" -ArgumentList "/i $installerPath /quiet $silentArgs" -Wait -NoNewWindow
-                    Write-Host "[+] Installing $packageName..." -NoNewline
+                    Write-Host "`r[+] Installing $packageName..."
                 }
                 catch {
                     Write-Error $_
@@ -199,14 +199,14 @@ function Install-ITTPackage {
             "exe"{
                 try {
                     Start-Process -FilePath $installerPath -ArgumentList $silentArgs -Wait
-                    Write-Host "[+] Installing $packageName..."
+                    Write-Host "`r[+] Installing $packageName..."
                 }
                 catch {
                     Write-Error $_
                 }
             }
             "zip"{
-                Write-Host "[+] Expanding Archive..." -ForegroundColor Yellow -NoNewline
+                Write-Host "`r[+] Expanding Archive..." -ForegroundColor Yellow -NoNewline
                 Expand-Archive -Path  $installerPath -DestinationPath $toolsDir -Force -ErrorAction Stop
 
                 $desktopPath = [System.Environment]::GetFolderPath('Desktop')
@@ -218,10 +218,10 @@ function Install-ITTPackage {
                     $shortcut = $shell.CreateShortcut($shortcutPath)
                     $shortcut.TargetPath = "$toolsDir\$launcherName"
                     $shortcut.Save()
-                    Write-Host "`r[+] Shortcut created on Destkop " -ForegroundColor Yellow -NoNewline
+                    Write-Host "`r[+] Shortcut created on Destkop " -ForegroundColor Yellow
                 }
                 catch {
-                    Write-Error "`r[x] Failed to create shortcut. Error: $_" -ForegroundColor Red -NoNewline
+                    Write-Error "`r[x] Failed to create shortcut. Error: $_" -ForegroundColor Red
                 }
             }
             "appx"{
