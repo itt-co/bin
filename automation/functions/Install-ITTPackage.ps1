@@ -181,10 +181,6 @@ function Install-ITTPackage {
 
             foreach ($depUrl in $dependencies) {
 
-<<<<<<< Updated upstream
-                Write-Host "`r[+] Installing dependency..."
-=======
->>>>>>> Stashed changes
                 Start-Process -FilePath "itt" -ArgumentList "install $depUrl -y" -NoNewWindow -Wait -PassThru
             }
         }
@@ -195,7 +191,7 @@ function Install-ITTPackage {
             "msi" {
                 try {
                     Start-Process -FilePath "msiexec.exe" -ArgumentList "/i $installerPath /quiet $silentArgs" -Wait -NoNewWindow
-                    Write-Host "`r[+] Installing $packageName..."
+                    Write-Host "[+] Installing $packageName..." -NoNewline
                 }
                 catch {
                     Write-Error $_
@@ -204,14 +200,14 @@ function Install-ITTPackage {
             "exe"{
                 try {
                     Start-Process -FilePath $installerPath -ArgumentList $silentArgs -Wait
-                    Write-Host "`r[+] Installing $packageName..."
+                    Write-Host "[+] Installing $packageName..."
                 }
                 catch {
                     Write-Error $_
                 }
             }
             "zip"{
-                Write-Host "`r[+] Expanding Archive..." -ForegroundColor Yellow -NoNewline
+                Write-Host "[+] Expanding Archive..." -ForegroundColor Yellow -NoNewline
                 Expand-Archive -Path  $installerPath -DestinationPath $toolsDir -Force -ErrorAction Stop
 
                 $desktopPath = [System.Environment]::GetFolderPath('Desktop')
@@ -223,16 +219,16 @@ function Install-ITTPackage {
                     $shortcut = $shell.CreateShortcut($shortcutPath)
                     $shortcut.TargetPath = "$toolsDir\$launcherName"
                     $shortcut.Save()
-                    Write-Host "`r[+] Shortcut created on Destkop " -ForegroundColor Yellow
+                    Write-Host "`r[+] Shortcut created on Destkop " -ForegroundColor Yellow -NoNewline
                 }
                 catch {
-                    Write-Error "`r[x] Failed to create shortcut. Error: $_" -ForegroundColor Red
+                    Write-Error "`r[x] Failed to create shortcut. Error: $_" -ForegroundColor Red -NoNewline
                 }
             }
             "appx"{
                 try {
-                    Write-Host "`r[+] Installing $packageName..."
                     Add-AppxPackage -Path $installerPath
+                    Write-Host "`r[+] Installing $packageName..." -NoNewline
                 }
                 catch {
                     Write-Error "`r[x] Failed to install $packageName. Error: $_"
