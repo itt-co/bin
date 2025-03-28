@@ -16,6 +16,7 @@ namespace ITT
 
         static async Task Main(string[] args)
         {
+
             if (args.Length == 0)
             {
                 Console.WriteLine("Starting ITT...");
@@ -37,6 +38,16 @@ namespace ITT
             {
                 case "install":
                     await HandleInstallCommand(args);
+                    break;
+                case "i":
+                    if (args.Length > 1)
+                    {
+                        HandleQuickInstallCommand(args[1]); 
+                    }
+                    else
+                    {
+                        Console.WriteLine("[i] Missing file path. Use: itt i <file.itt>");
+                    }
                     break;
                 case "t":
                 case "tweak":
@@ -140,18 +151,16 @@ namespace ITT
 
         static async Task InstallPackageAsync(string packageName, bool autoConfirm)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("[i] By installing, you accept licenses for the packages.");
-            Console.ResetColor();
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"[+] Installing the following package: {packageName}");
-            Console.ResetColor();
-
             if (!autoConfirm)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Are you sure you want to install the package '{packageName}'? (yes/y to confirm)");
+                Console.WriteLine("[i] By installing, you accept licenses for the packages.");
+                Console.ResetColor();
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Are you sure you want to install the package '{packageName}' (y/No)");
+                Console.ResetColor();
+
                 string confirmation = Console.ReadLine()?.ToLower();
                 if (confirmation != "yes" && confirmation != "y")
                 {
