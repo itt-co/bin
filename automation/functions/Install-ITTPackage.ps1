@@ -174,12 +174,17 @@ function Install-ITTPackage {
             New-Item -ItemType Directory -Path $toolsDir | Out-Null
         }
 
+        Write-Host "[+] Downloading the following package: $dependencies $packageName"
+
         # Install dependencies first
         if ($dependencies -and $dependencies.Count -gt 0) {
 
             foreach ($depUrl in $dependencies) {
 
+<<<<<<< Updated upstream
                 Write-Host "`r[+] Installing dependency..."
+=======
+>>>>>>> Stashed changes
                 Start-Process -FilePath "itt" -ArgumentList "install $depUrl -y" -NoNewWindow -Wait -PassThru
             }
         }
