@@ -168,6 +168,8 @@ namespace ITT
                 }
             }
 
+            Console.WriteLine($"[i] Downloading the following package {packageName}");
+
             string programDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             string ittPath = Path.Combine(programDataPath, "itt");
             string libPath = Path.Combine(ittPath, "downloads");

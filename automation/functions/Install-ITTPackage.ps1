@@ -173,14 +173,9 @@ function Install-ITTPackage {
         if (-Not (Test-Path $toolsDir)) {
             New-Item -ItemType Directory -Path $toolsDir | Out-Null
         }
-
-        Write-Host "[+] Downloading the following package: $dependencies $packageName"
-
         # Install dependencies first
         if ($dependencies -and $dependencies.Count -gt 0) {
-
             foreach ($depUrl in $dependencies) {
-
                 Start-Process -FilePath "itt" -ArgumentList "install $depUrl -y" -NoNewWindow -Wait -PassThru
             }
         }
@@ -207,7 +202,8 @@ function Install-ITTPackage {
                 }
             }
             "zip"{
-                Write-Host "[+] Expanding Archive..." -ForegroundColor Yellow -NoNewline
+
+                Write-Host "[+] Expanding Archive..." -ForegroundColor Yellow
                 Expand-Archive -Path  $installerPath -DestinationPath $toolsDir -Force -ErrorAction Stop
 
                 $desktopPath = [System.Environment]::GetFolderPath('Desktop')
@@ -225,10 +221,10 @@ function Install-ITTPackage {
                     Write-Error "`r[x] Failed to create shortcut. Error: $_" -ForegroundColor Red -NoNewline
                 }
             }
-            "appx"{
+            "msixbundle"{
                 try {
                     Add-AppxPackage -Path $installerPath
-                    Write-Host "`r[+] Installing $packageName..." -NoNewline
+                    Write-Host "`r[+] Installing $packageName..."
                 }
                 catch {
                     Write-Error "`r[x] Failed to install $packageName. Error: $_"
